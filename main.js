@@ -30,8 +30,4 @@
 	ctx.rotate(Math.PI / 2);
 	ctx.drawImage(輸入, 0, -輸入.naturalHeight);
 };
-下載.onclick = async () => {
-
-
-	startDownload(await (new Promise((res, rej) => 輸出.toBlob((blob) => res(blob2url(blob))))), 'img');
-};
+下載.onclick = async () => startDownload(await canvas2url(輸出), 'img.png');

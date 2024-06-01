@@ -95,7 +95,10 @@ let svgtext2url = text => blob2url(new Blob([text], { type: 'image/svg+xml' }));
 let svg2url = svg => svgtext2url(xml2text(svg));
 let svg2img = svg => loadimg(svg2url(svg));
 
-let svg2pngurl = svg => svg2img(svg).then(img => new Promise(r => img2canvas(img).toBlob(blob => r(blob2url(blob)))));
+let canvas2blob = canvas => new Promise(r => canvas.toBlob(blob => r(blob)));
+let canvas2url = canvas => canvas2blob(canvas).then(blob => blob2url(blob));
+
+let svg2pngurl = svg => svg2img(svg).then(img => canvas2url(img2canvas(img)));
 let png2base64 = src => loadimg(src).then(img => img2canvas(img).toDataURL());
 
 function startDownload(url, name) {
