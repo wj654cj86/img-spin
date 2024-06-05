@@ -97,6 +97,8 @@ let svg2img = svg => loadimg(svg2url(svg));
 
 let canvas2blob = canvas => new Promise(r => canvas.toBlob(blob => r(blob)));
 let canvas2url = canvas => canvas2blob(canvas).then(blob => blob2url(blob));
+let canvas2jpgblob = (canvas, quality) => new Promise(r => canvas.toBlob(blob => r(blob), 'image/jpeg', quality));
+let canvas2jpgurl = (canvas, quality) => canvas2jpgblob(canvas, quality).then(blob => blob2url(blob));
 
 let svg2pngurl = svg => svg2img(svg).then(img => canvas2url(img2canvas(img)));
 let png2base64 = src => loadimg(src).then(img => img2canvas(img).toDataURL());
