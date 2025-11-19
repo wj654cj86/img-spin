@@ -2,14 +2,25 @@ Number.prototype.padStart = function (...args) { return this.toString().padStart
 Number.prototype.padEnd = function (...args) { return this.toString().padEnd(...args); };
 
 String.prototype.Clear0 = function () { return this.replace(/\.0*$|(?<=\.\d*[1-9])0+$/, ''); };
-String.prototype.forEach = function (cb = () => { }) { this.split(/(?:)/u).forEach(cb); };
+String.prototype.forEach = function (cb = () => { }) { [...this].forEach(cb); };
 
 Array.prototype.random = function () { return this.length <= 0 ? null : this[Math.floor(Math.random() * this.length)]; };
 Array.prototype.draw = function () { return this.length <= 0 ? null : this.splice(Math.floor(Math.random() * this.length), 1)[0]; };
 Array.prototype.promiseMap = function (cb = async v => v) { return Promise.all(this.map(cb)) };
+Array.prototype.shuffle = function () {
+	let i = this.length;
+	while (i) {
+		let j = Math.floor(Math.random() * i);
+		i--;
+		[this[i], this[j]] = [this[j], this[i]];
+	}
+	return this;
+}
 
 Object.forEach = (b, cb) => Object.entries(b).forEach(([k, v]) => cb(v, k));
 Object.some = (b, cb) => Object.entries(b).some(([k, v]) => cb(v, k));
+Object.filter = (b, cb) => Object.entries(b).filter(([k, v]) => cb(v, k));
+Object.flatMap = (b, cb) => Object.entries(b).flatMap(([k, v]) => cb(v, k));
 
 Audio.prototype.replay = function () {
 	this.currentTime = 0;

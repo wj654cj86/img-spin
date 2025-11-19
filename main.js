@@ -28,3 +28,21 @@ let ctx = 輸出.getContext('2d');
 	ctx.drawImage(輸入, 0, -輸入.naturalHeight);
 };
 下載.onclick = () => canvas2url(輸出).then(url => startDownload(url, 'img.png'));
+
+if (url2obj().type == 'mjs') {
+	下載.onclick = async () => {
+		await (new Promise((res, rej) => {
+			輸入.onload = res;
+			輸入.onerror = rej;
+			輸入.src = blob2url(檔案選擇.files[0]);
+		}));
+		ctx.drawImage(輸入, 0, 0);
+		輸出.width = 1920;
+		輸出.height = 1080;
+		ctx.fillStyle = '#000';
+		ctx.fillRect(0, 0, 1920, 1080);
+		ctx.rotate(-Math.PI / 2);
+		ctx.drawImage(輸入, -輸入.naturalWidth + 1, -229);
+		canvas2url(輸出).then(url => startDownload(url, 'img.png'));
+	};
+}
